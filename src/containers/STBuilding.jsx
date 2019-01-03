@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import ParkingLot from '../components/ParkingLot';
 
-const mapStateToProps = state => ({ parkingLots: state.parkingLots})
+const mapStateToProps = state => ({ parkingLots: state.parkingLots.filter(x => x.areaId === 2)})
 
 class STBuilding extends React.Component {
   render() {
