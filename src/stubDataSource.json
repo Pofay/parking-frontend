@@ -1,0 +1,35 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "areaName": "S & T Building",
+      "parkingLots": [
+        {
+          "id": 60,
+          "name": "D1",
+          "status": 1
+        },
+        {
+          "id": 61,
+          "name": "D2",
+          "status": 0
+        },
+        {
+          "id": 62,
+          "name": "D3",
+          "status": 0
+        },
+        {
+          "id": 63,
+          "name": "D4",
+          "status": 0
+        },
+        {
+          "id": 64,
+          "name": "D5",
+          "status": 0
+        }
+      ]
+    }
+  ]
+}

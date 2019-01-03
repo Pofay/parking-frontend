@@ -5,7 +5,6 @@ const reducers = combineReducers({
   parkingLots: parkingAppReducer
 });
 
-
 const createAppStore = () => createStore(reducers)
 
 export default createAppStore

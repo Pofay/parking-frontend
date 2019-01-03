@@ -1,4 +1,4 @@
-import R from 'ramda'
+import { chain } from 'ramda'
 
 const parkingAppReducer = (state = [], action) => {
   switch (action.type) {
@@ -11,7 +11,7 @@ const parkingAppReducer = (state = [], action) => {
   }
 };
 
-const normalizeData = R.chain((x) => x.parkingLots.map(i => ({...i, areaName: x.areaName, areaId: x.id})))
+const normalizeData = chain((x) => x.parkingLots.map(i => ({...i, areaName: x.areaName, areaId: x.id})))
 
 
 export default parkingAppReducer;
