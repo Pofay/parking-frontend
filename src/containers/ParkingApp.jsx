@@ -5,7 +5,7 @@ import STBuilding from './STBuilding';
 
 const mapDispatchToProps = dispatch => ({
   updateParkingLot: data =>
-    dispatch({ type: 'UPDATE-PARKING-LOT', parkingLot: data }),
+    dispatch({ type: 'UPDATE-PARKING-LOT', parkingLot: data.parkingLot}), // Weird, its contained twice?
   populateStore: data => dispatch({type: 'LOAD-PARKING-AREAS', parkingAreas: data})
 });
 
