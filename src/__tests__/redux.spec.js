@@ -66,14 +66,14 @@ it('Should be able to update a parkingLot', () => {
       {
         id: 60,
         name: 'D1',
-        status: 1,
+        status: 0,
         areaId: 1,
         areaName: 'S & T Building'
       },
       {
         id: 61,
         name: 'D2',
-        status: 1,
+        status: 0,
         areaId: 1,
         areaName: 'S & T Building'
       }
@@ -81,10 +81,10 @@ it('Should be able to update a parkingLot', () => {
   };
 
   const data = {
-    id: 61,
+    id: 60,
     name: 'D2',
-    status: 1,
-    area_id: 1
+    status: 0,
+    parking_area_id: 1
   };
 
   const store = createStore();

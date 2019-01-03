@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 import { Provider } from 'react-redux';
 import Header from './components/Header';
-import STBuilding from './containers/STBuilding';
 import createStore from './redux';
+import ParkingApp from './containers/ParkingApp';
 
 const stub = require('./stubDataSource.json');
 
@@ -17,7 +17,7 @@ const App = props => (
   <Provider store={store}>
     <div className="App">
       <Header />
-      <STBuilding />
+      <ParkingApp />
     </div>
   </Provider>
 );

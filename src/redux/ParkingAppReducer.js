@@ -5,7 +5,7 @@ const parkingAppReducer = (state = [], action) => {
     case 'LOAD-PARKING-AREAS':
       return normalizeData(action.parkingAreas)
     case 'UPDATE-PARKING-LOT':
-      return state.map(x => x.id === action.parkingLot.id ? ({...x, status: action.parkingLot.status }) : x)
+      return state.map(x => x.id === action.parkingLot.id ? {...x, status: action.parkingLot.status } : x)
     default:
       return state;
   }
