@@ -5,7 +5,8 @@ import STBuilding from './STBuilding';
 
 const mapDispatchToProps = dispatch => ({
   updateParkingLot: data =>
-    dispatch({ type: 'UPDATE-PARKING-LOT', parkingLot: data })
+    dispatch({ type: 'UPDATE-PARKING-LOT', parkingLot: data }),
+  populateStore: data => dispatch({type: 'LOAD-PARKING-AREAS', parkingAreas: data})
 });
 
 class ParkingApp extends React.Component {
@@ -17,6 +18,12 @@ class ParkingApp extends React.Component {
       this.props.updateParkingLot(parkingLot);
     });
   }
+
+  componentDidMount() {
+      fetch('http://localhost:4000/parking_lots')
+      .then(res => res.json())
+      .then(res => this.props.populateStore(res.data))
+  }  
 
   componentWillUnmount() {
     this.socket.disconnect();
