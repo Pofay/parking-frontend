@@ -1,10 +1,17 @@
+import R from 'ramda'
+
 const parkingAppReducer = (state = [], action) => {
   switch (action.type) {
     case 'LOAD-PARKING-AREAS':
-      return action.parkingAreas;
+      return normalizeData(action.parkingAreas)
+    case 'UPDATE-PARKING-LOT':
+      return state.map(x => x.id === action.parkingLot.id ? ({...x, status: action.parkingLot.status }) : x)
     default:
       return state;
   }
 };
+
+const normalizeData = R.chain((x) => x.parkingLots.map(i => ({...i, areaName: x.areaName, areaId: x.id})))
+
 
 export default parkingAppReducer;

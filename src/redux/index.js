@@ -2,7 +2,7 @@ import { createStore, combineReducers } from 'redux';
 import parkingAppReducer from './ParkingAppReducer';
 
 const reducers = combineReducers({
-  parkingAreas: parkingAppReducer
+  parkingLots: parkingAppReducer
 });
 
 
