@@ -8,8 +8,14 @@ const mapStateToProps = state => {
   const upperParkingLots = state.parkingLots
     .filter(x => x.areaId === 2)
     .slice(0, 14);
+
+  const lowerParkingLots = state.parkingLots
+    .filter(x => x.areaId === 2)
+    .slice(14);
+
   return {
-    upperParkingLots
+    upperParkingLots,
+    lowerParkingLots
   };
 };
 
@@ -20,20 +26,26 @@ class STBuilding extends React.Component {
         style={{
           backgroundColor: '#696969',
           display: 'inline',
-          flexGrow: 1
+          flexGrow: 1,
+          margin: 'auto'
         }}
       >
-        <Grid container spacing={16}>
+        <Grid container spacing={16} justify='center'>
           <Grid item xs={1}>
             <Paper style={{ textAlign: 'center', height: '100%' }}>
               ST Building
             </Paper>
           </Grid>
           <Grid item xs={1}>
-            <Paper style={{ textAlign: 'center', height: '100%'}}> Motorcycle Area </Paper>
+            <Paper style={{ textAlign: 'center', height: '100%' }}>
+              {' '}
+              Motorcycle Area{' '}
+            </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Paper elevation={1} style={{ height: '40%'}}>Faculty Area</Paper>
+            <Paper elevation={1} style={{ height: '40%' }}>
+              Faculty Area
+            </Paper>
             <div style={{ marginTop: '2%', display: 'inline-block' }}>
               {this.props.upperParkingLots.map(x => (
                 <ParkingLot key={x.id} lotName={x.name} status={x.status} />
@@ -41,7 +53,22 @@ class STBuilding extends React.Component {
             </div>
           </Grid>
           <Grid item xs={1}>
-             <Paper style={{height: '100%'}}elevation={1}>Canteen</Paper>
+            <Paper style={{ height: '100%' }} elevation={1}>
+              Canteen
+            </Paper>
+          </Grid>
+        </Grid>
+
+        <Grid style={{ paddingTop: '1%' }} container spacing={16} justify='center'>
+          <Grid item xs={10}>
+            <div style={{ marginTop: '2%', display: 'inline-block' }}>
+              {this.props.lowerParkingLots.map(x => (
+                <ParkingLot key={x.id} lotName={x.name} status={x.status} />
+              ))}
+            </div>
+          </Grid>
+          <Grid item xs={10}>
+            <Paper style={{ height: '100%' ,paddingRight: '10%', paddingLeft: '10%'}}>Main Building</Paper>
           </Grid>
         </Grid>
       </div>
