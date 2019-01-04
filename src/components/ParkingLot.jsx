@@ -12,12 +12,12 @@ const ParkingLot = ({ name, status }) => (
 const ParkingLotAvatar= (name, status) => (<Avatar style={{ backgroundColor: status === 1 ? '#ff1744' : '#4caf50' }}>{name}</Avatar>)
 
 ParkingLot.defaultProps= {
-    lotName: 'C1',
+    name: 'C1',
     status: 0
 }
 
 ParkingLot.propTypes = {
-  lotName: PropTypes.string,
+  name: PropTypes.string,
   status: PropTypes.number
 };
 
