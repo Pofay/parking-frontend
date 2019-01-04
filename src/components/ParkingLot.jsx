@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 
 const ParkingLot = ({ lotName, status }) => (
   <Chip
-    label={status === 1 ? 'occupied' : 'vacant'}
-    avatar={<Avatar>{lotName}</Avatar>}
-    style={{ backgroundColor: status === 1 ? '#ff1744' : '#4caf50' }}
+    avatar={ParkingLotAvatar(lotName,status)}
   />
 );
+
+const ParkingLotAvatar= (name, status) => (<Avatar style={{ backgroundColor: status === 1 ? '#ff1744' : '#4caf50' }}>{name}</Avatar>)
 
 ParkingLot.defaultProps= {
     lotName: 'C1',
