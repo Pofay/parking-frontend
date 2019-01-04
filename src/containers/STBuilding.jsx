@@ -44,7 +44,7 @@ class STBuilding extends React.Component {
             Available Slots: {this.props.availableSlots} / {this.props.totalSlots}
           </Paper>
         </Grid>
-        <Grid style={{marginTop: '1%' }}container spacing={16} justify="center">
+        <Grid style={{paddingTop: '1%' }}container spacing={16} justify="center">
           <Grid item xs={1}>
             <Paper style={{ textAlign: 'center', height: '100%' }}>
               ST Building
