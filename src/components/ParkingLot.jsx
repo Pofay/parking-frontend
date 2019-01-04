@@ -3,9 +3,9 @@ import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import PropTypes from 'prop-types';
 
-const ParkingLot = ({ lotName, status }) => (
+const ParkingLot = ({ name, status }) => (
   <Chip
-    avatar={ParkingLotAvatar(lotName,status)}
+    avatar={ParkingLotAvatar(name,status)}
   />
 );
 

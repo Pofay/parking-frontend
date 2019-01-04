@@ -13,9 +13,16 @@ const mapStateToProps = state => {
     .filter(x => x.areaId === 2)
     .slice(14);
 
+  const availableSlots = upperParkingLots
+    .concat(lowerParkingLots)
+    .filter(x => x.status === 0).length;
+  const totalSlots = upperParkingLots.concat(lowerParkingLots).length;
+
   return {
     upperParkingLots,
-    lowerParkingLots
+    lowerParkingLots,
+    availableSlots,
+    totalSlots
   };
 };
 
@@ -30,7 +37,14 @@ class STBuilding extends React.Component {
           margin: 'auto'
         }}
       >
-        <Grid container spacing={16} justify='center'>
+        <Grid container spacing={16} justif="left">
+          <Grid item xs={2} />
+          <Paper>
+            {' '}
+            Available Slots: {this.props.availableSlots} / {this.props.totalSlots}
+          </Paper>
+        </Grid>
+        <Grid style={{marginTop: '1%' }}container spacing={16} justify="center">
           <Grid item xs={1}>
             <Paper style={{ textAlign: 'center', height: '100%' }}>
               ST Building
@@ -48,7 +62,7 @@ class STBuilding extends React.Component {
             </Paper>
             <div style={{ marginTop: '2%', display: 'inline-block' }}>
               {this.props.upperParkingLots.map(x => (
-                <ParkingLot key={x.id} lotName={x.name} status={x.status} />
+                <ParkingLot key={x.id} {...x} />
               ))}
             </div>
           </Grid>
@@ -59,16 +73,29 @@ class STBuilding extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid style={{ paddingTop: '1%' }} container spacing={16} justify='center'>
+        <Grid
+          style={{ paddingTop: '1%' }}
+          container
+          spacing={16}
+          justify="center"
+        >
           <Grid item xs={10}>
             <div style={{ marginTop: '2%', display: 'inline-block' }}>
               {this.props.lowerParkingLots.map(x => (
-                <ParkingLot key={x.id} lotName={x.name} status={x.status} />
+                <ParkingLot key={x.id} {...x} />
               ))}
             </div>
           </Grid>
           <Grid item xs={10}>
-            <Paper style={{ height: '100%' ,paddingRight: '10%', paddingLeft: '10%'}}>Main Building</Paper>
+            <Paper
+              style={{
+                height: '100%',
+                paddingRight: '10%',
+                paddingLeft: '10%'
+              }}
+            >
+              Main Building
+            </Paper>
           </Grid>
         </Grid>
       </div>
