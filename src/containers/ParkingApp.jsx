@@ -8,10 +8,13 @@ const mapDispatchToProps = dispatch => ({
   updateParkingLot: data =>
     dispatch({ type: 'UPDATE-PARKING-LOT', parkingLot: data.parkingLot }), // Weird, its contained twice?
   loadParkingAreas: data =>
-    dispatch({ type: 'LOAD-PARKING-AREAS', parkingAreas: data })
+    dispatch({ type: 'LOAD-PARKING-AREAS', parkingAreas: data }),
+  attachOccupants: data =>
+    dispatch({ type: 'ATTACH-OCCUPANTS', occupations: data })
 });
 
-const fetchFuture = url => tryP(() => fetch(url)).chain(res => tryP(() => res.json()))
+const fetchFuture = url =>
+  tryP(() => fetch(url)).chain(res => tryP(() => res.json()));
 
 class ParkingApp extends React.Component {
   constructor(props) {
@@ -24,14 +27,21 @@ class ParkingApp extends React.Component {
   }
 
   componentDidMount() {
-    /*
-      fetch('http://localhost:4000/parking_lots')
-      .then(res => res.json())
-      .then(res => this.props.loadParkingAreas(res.data))
-      */
     fetchFuture('http://localhost:4000/parking_lots')
       .map(res => res.data)
-      .fork(console.error, res => this.props.loadParkingAreas(res))
+      .map(res => {
+        this.props.loadParkingAreas(res);
+        return res;
+      })
+      .chain(() => fetchFuture('http://localhost:4000/lot_occupations'))
+      .map(res => res.data)
+      .map(res => {
+        this.props.attachOccupants(res);
+        return res;
+      })
+      .fork(console.error, success =>
+        console.log('successfully loaded all data')
+      );
   }
 
   componentWillUnmount() {

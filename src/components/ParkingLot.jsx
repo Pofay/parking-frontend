@@ -4,9 +4,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
-const ParkingLot = ({ name, status, occupation }) => (
+const ParkingLot = ({ name, status, occupant }) => (
   <Tooltip
-    title={occupation  === undefined ? 'Unoccupied' : occupation.occupant}
+    title={
+      occupant === undefined ? 'Not Registered' : `${name}: ${occupant.name}`
+    }
     placement="top"
   >
     <Chip avatar={ParkingLotAvatar(name, status)} />
