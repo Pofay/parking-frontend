@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.6.2",
+    "fluture": "^10.3.0",
     "prop-types": "^15.6.2",
     "ramda": "^0.26.1",
     "react": "^16.6.3",
