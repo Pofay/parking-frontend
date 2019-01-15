@@ -11,7 +11,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: 'LOAD-PARKING-AREAS', parkingAreas: data })
 });
 
-const fetchFuture = url => tryP(() => fetch(url));
+const fetchFuture = url => tryP(() => fetch(url)).chain(res => tryP(() => res.json()))
 
 class ParkingApp extends React.Component {
   constructor(props) {
@@ -30,9 +30,8 @@ class ParkingApp extends React.Component {
       .then(res => this.props.loadParkingAreas(res.data))
       */
     fetchFuture('http://localhost:4000/parking_lots')
-      .chain(res => tryP(() => res.json()))
       .map(res => res.data)
-      .fork(console.error, res => this.props.loadParkingAreas(res));
+      .fork(console.error, res => this.props.loadParkingAreas(res))
   }
 
   componentWillUnmount() {
