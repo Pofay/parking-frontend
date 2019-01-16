@@ -5,29 +5,53 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import { split, map, head, pipe, reduce, toUpper } from 'ramda';
 
-const showInitials = 
-  pipe(
-    split(' '),
-    map(head),
-    reduce((x, y) => x + y, ''),
-    toUpper
-  );
-
-const ParkingLot = ({ name, status, occupant }) => (
-  <Tooltip
-    title={
-      occupant === undefined ? 'Not Registered' : `${name}: ${occupant.name}`
-    }
-    placement="top"
-  >
-    <Chip
-      label={occupant === undefined ? '' : showInitials(occupant.name)}
-      avatar={ParkingLotAvatar(name, status)}
-    />
-  </Tooltip>
+const showInitials = pipe(
+  split(' '),
+  map(head),
+  reduce((x, y) => x + y, ''),
+  toUpper
 );
 
-// Show first Letters of each word in name
+class ParkingLot extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state= { open: false}
+    this.handleOpen = this.handleOpen.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+  }
+
+  handleOpen() {
+    this.setState(state => ({ open: true }));
+  }
+
+  handleClose() {
+    this.setState(state => ({ open: false }));
+  }
+
+  render() {
+    const { occupant, name, status } = this.props
+    const { open } = this.state
+    return (
+      <Tooltip
+        title={
+          occupant === undefined
+            ? 'Not Registered'
+            : `${name}: ${occupant.name}`
+        }
+        placement="top"
+        open={open}
+      >
+        <Chip
+          label={occupant === undefined ? '' : showInitials(occupant.name)}
+          avatar={ParkingLotAvatar(name, status)}
+          onMouseEnter={(e) => { e.preventDefault(); this.handleOpen()}}
+          onMouseLeave={(e) => { e.preventDefault(); this.handleClose()}}
+        />
+      </Tooltip>
+    );
+  }
+}
+
 const ParkingLotAvatar = (name, status) => (
   <Avatar style={{ backgroundColor: status === 1 ? '#ff1744' : '#4caf50' }}>
     {name}
