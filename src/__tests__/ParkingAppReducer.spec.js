@@ -1,8 +1,16 @@
-import createStore from '../redux';
+import { createStore, combineReducers } from 'redux';
+import parkingAppReducer from '../redux/ParkingAppReducer';
+
+const getStore = () => 
+  createStore(
+    combineReducers({
+      parkingLots: parkingAppReducer
+    })
+  );
 
 it('Should contain an empty array on initial state', () => {
   const expectedState = { parkingLots: [] };
-  const store = createStore();
+  const store = getStore();
 
   const actualState = store.getState();
 
@@ -34,7 +42,7 @@ it('Should normalize given data into a single array of parkingLots', () => {
       { id: 61, name: 'D2', status: 0, areaName: 'S & T Building', areaId: 1 }
     ]
   };
-  const store = createStore();
+  const store = getStore();
 
   store.dispatch({ type: 'LOAD-PARKING-AREAS', parkingAreas: data });
   const actualState = store.getState();
@@ -87,7 +95,7 @@ it('Should be able to update a parkingLot', () => {
     parking_area_id: 1
   };
 
-  const store = createStore();
+  const store = getStore();
   store.dispatch({
     type: 'LOAD-PARKING-AREAS',
     parkingAreas
@@ -100,7 +108,6 @@ it('Should be able to update a parkingLot', () => {
 });
 
 it('Should attach occupants to parkingLots', () => {
-
   const parkingAreas = [
     {
       id: 1,
@@ -139,7 +146,10 @@ it('Should attach occupants to parkingLots', () => {
         status: 1,
         areaId: 1,
         areaName: 'S & T Building',
-        occupant: { school_id_number: '16-1794-578', name: 'Andrei Thomas Gilos' }
+        occupant: {
+          school_id_number: '16-1794-578',
+          name: 'Andrei Thomas Gilos'
+        }
       },
       {
         id: 61,
@@ -151,7 +161,7 @@ it('Should attach occupants to parkingLots', () => {
     ]
   };
 
-  const store = createStore()
+  const store = getStore();
   store.dispatch({
     type: 'LOAD-PARKING-AREAS',
     parkingAreas
@@ -160,11 +170,11 @@ it('Should attach occupants to parkingLots', () => {
   store.dispatch({
     type: 'ATTACH-OCCUPANTS',
     occupations
-  })
+  });
 
-  const actual = store.getState()
+  const actual = store.getState();
 
-  expect(actual).toEqual(expected)
+  expect(actual).toEqual(expected);
 });
 
 describe.skip('Learning Tests', () => {
@@ -207,7 +217,7 @@ describe.skip('Learning Tests', () => {
       }
     ];
 
-    const store = createStore();
+    const store = getStore();
 
     store.dispatch({ type: 'LOAD-PARKING-AREAS', parkingAreas: data });
     const { parkingAreas } = store.getState();
