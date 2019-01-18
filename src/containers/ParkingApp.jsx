@@ -1,6 +1,7 @@
 import React from 'react';
 import { tryP } from 'fluture';
 import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
 import io from 'socket.io-client';
 import STBuilding from './STBuilding';
 
@@ -10,7 +11,9 @@ const mapDispatchToProps = dispatch => ({
   loadParkingAreas: data =>
     dispatch({ type: 'LOAD-PARKING-AREAS', parkingAreas: data }),
   attachOccupants: data =>
-    dispatch({ type: 'ATTACH-OCCUPANTS', occupations: data })
+    dispatch({ type: 'ATTACH-OCCUPANTS', occupations: data }),
+  setSearchQuery: data => dispatch({ type: 'SEARCH', value: data }),
+  resetSearchQuery: () => dispatch({ type: 'INITIAL-STATE' })
 });
 
 const fetchFuture = url =>
@@ -24,6 +27,8 @@ class ParkingApp extends React.Component {
     this.socket.on('status-changed', parkingLot => {
       this.props.updateParkingLot(parkingLot);
     });
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -49,8 +54,27 @@ class ParkingApp extends React.Component {
     console.log('Disconnected from Socket.IO Server');
   }
 
+  handleChange(event) {
+    event.preventDefault();
+    if (event.target.value !== '')
+      this.props.setSearchQuery(event.target.value.trim())
+    else
+      this.props.resetSearchQuery()
+  }
+
   render() {
-    return <STBuilding />;
+    return (
+      <div>
+        <form autoComplete="off" noValidate>
+          <TextField
+            id="searchField"
+            onChange={this.handleChange}
+            label="Search Name of Occupant"
+          />
+        </form>
+        <STBuilding />
+      </div>
+    );
   }
 }
 

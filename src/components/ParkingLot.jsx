@@ -3,7 +3,17 @@ import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
-import { split, map, head, pipe, reduce, toUpper } from 'ramda';
+import {
+  toLower,
+  contains,
+  split,
+  map,
+  head,
+  pipe,
+  reduce,
+  toUpper
+} from 'ramda';
+import { connect } from 'react-redux';
 
 const showInitials = pipe(
   split(' '),
@@ -12,12 +22,22 @@ const showInitials = pipe(
   toUpper
 );
 
+const mapStateToProps = state => ({
+  nameIsContainedInQuery: occupant =>
+    occupant === undefined
+      ? false
+      : pipe(
+          toLower,
+          contains(toLower(state.searchQuery))
+        )(occupant.name)
+});
+
 class ParkingLot extends React.Component {
   constructor(props) {
     super(props);
-    this.state= { open: false}
-    this.handleOpen = this.handleOpen.bind(this)
-    this.handleClose = this.handleClose.bind(this)
+    this.state = { open: false };
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   handleOpen() {
@@ -29,8 +49,8 @@ class ParkingLot extends React.Component {
   }
 
   render() {
-    const { occupant, name, status } = this.props
-    const { open } = this.state
+    const { occupant, name, status } = this.props;
+    const { open } = this.state;
     return (
       <Tooltip
         title={
@@ -39,13 +59,19 @@ class ParkingLot extends React.Component {
             : `${name}: ${occupant.name}`
         }
         placement="top"
-        open={open}
+        open={open || this.props.nameIsContainedInQuery(occupant)}
       >
         <Chip
           label={occupant === undefined ? '' : showInitials(occupant.name)}
           avatar={ParkingLotAvatar(name, status)}
-          onMouseEnter={(e) => { e.preventDefault(); this.handleOpen()}}
-          onMouseLeave={(e) => { e.preventDefault(); this.handleClose()}}
+          onMouseEnter={e => {
+            e.preventDefault();
+            this.handleOpen();
+          }}
+          onMouseLeave={e => {
+            e.preventDefault();
+            this.handleClose();
+          }}
         />
       </Tooltip>
     );
@@ -68,4 +94,4 @@ ParkingLot.propTypes = {
   status: PropTypes.number
 };
 
-export default ParkingLot;
+export default connect(mapStateToProps)(ParkingLot);
