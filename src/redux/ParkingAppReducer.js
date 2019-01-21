@@ -17,10 +17,22 @@ const parkingAppReducer = (state = [], action) => {
           action.occupations.filter(o => o.lotName === x.name)
         )
       }));
+    case 'ATTACH-OCCUPANT':
+      return state.map(x =>
+        x.name === action.occupation.lotName
+          ? { ...x, occupant: prop('occupant', action.occupation) }
+          : x
+      );
+    case 'REMOVE-OCCUPANT':
+      return state.map(x =>
+        x.name === action.value.lotName
+          ? { ...x, occupant: undefined }
+          : x
+      );
     default:
       return state;
   }
-};
+}
 
 const getOccupant = pipe(
   head,

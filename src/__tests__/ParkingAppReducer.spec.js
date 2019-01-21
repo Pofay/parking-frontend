@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import parkingAppReducer from '../redux/ParkingAppReducer';
 
-const getStore = () => 
+const getStore = () =>
   createStore(
     combineReducers({
       parkingLots: parkingAppReducer
@@ -170,6 +170,151 @@ it('Should attach occupants to parkingLots', () => {
   store.dispatch({
     type: 'ATTACH-OCCUPANTS',
     occupations
+  });
+
+  const actual = store.getState();
+
+  expect(actual).toEqual(expected);
+});
+
+it('Should attach a occupant to a parkingLot', () => {
+  const parkingAreas = [
+    {
+      id: 1,
+      areaName: 'S & T Building',
+      parkingLots: [
+        {
+          id: 60,
+          name: 'D1',
+          status: 1
+        },
+        {
+          id: 61,
+          name: 'D2',
+          status: 0
+        }
+      ]
+    }
+  ];
+
+  const occupation = {
+    lotName: 'D1',
+    status: 'OCCUPIED',
+    occupant: {
+      school_id_number: '16-1794-578',
+      name: 'Andrei Thomas Gilos'
+    }
+  };
+
+  const expected = {
+    parkingLots: [
+      {
+        id: 60,
+        name: 'D1',
+        status: 1,
+        areaId: 1,
+        areaName: 'S & T Building',
+        occupant: {
+          school_id_number: '16-1794-578',
+          name: 'Andrei Thomas Gilos'
+        }
+      },
+      {
+        id: 61,
+        name: 'D2',
+        status: 0,
+        areaId: 1,
+        areaName: 'S & T Building'
+      }
+    ]
+  };
+
+  const store = getStore();
+  store.dispatch({
+    type: 'LOAD-PARKING-AREAS',
+    parkingAreas
+  });
+
+  store.dispatch({
+    type: 'ATTACH-OCCUPANT',
+    occupation
+  });
+
+  const actual = store.getState();
+
+  expect(actual).toEqual(expected);
+});
+
+it('Can unattach a occupant to parkingLot', () => {
+  const parkingAreas = [
+    {
+      id: 1,
+      areaName: 'S & T Building',
+      parkingLots: [
+        {
+          id: 60,
+          name: 'D1',
+          status: 1
+        },
+        {
+          id: 61,
+          name: 'D2',
+          status: 0
+        }
+      ]
+    }
+  ];
+
+  const occupation = {
+    lotName: 'D1',
+    status: 'OCCUPIED',
+    occupant: {
+      school_id_number: '16-1794-578',
+      name: 'Andrei Thomas Gilos'
+    }
+  };
+
+  const expected = {
+    parkingLots: [
+      {
+        id: 60,
+        name: 'D1',
+        status: 1,
+        areaId: 1,
+        areaName: 'S & T Building',
+        occupant: undefined
+      },
+      {
+        id: 61,
+        name: 'D2',
+        status: 0,
+        areaId: 1,
+        areaName: 'S & T Building'
+      }
+    ]
+  };
+
+  const removedOccupation = {
+    id: 20,
+    occupant_id_number: '16-1794-658',
+    lotName: 'D1',
+    status: 'UNOCCUPIED'
+  };
+
+  const store = getStore();
+  store.dispatch({
+    type: 'LOAD-PARKING-AREAS',
+    parkingAreas
+  });
+
+  store.dispatch({
+    type: 'ATTACH-OCCUPANT',
+    occupation
+  });
+
+  store.dispatch({
+    type: 'REMOVE-OCCUPANT',
+    value: removedOccupation
   });
 
   const actual = store.getState();

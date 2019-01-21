@@ -79,7 +79,7 @@ class ParkingLot extends React.Component {
 }
 
 const ParkingLotAvatar = (name, status) => (
-  <Avatar style={{ backgroundColor: status === 1 ? '#ff1744' : '#4caf50' }}>
+  <Avatar style={{ color: '#fff', backgroundColor: status === 1 ? '#ff1744' : '#4caf50' }}>
     {name}
   </Avatar>
 );
