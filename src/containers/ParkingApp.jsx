@@ -13,6 +13,9 @@ const mapDispatchToProps = dispatch => ({
   attachOccupants: data =>
     dispatch({ type: 'ATTACH-OCCUPANTS', occupations: data }),
   setSearchQuery: data => dispatch({ type: 'SEARCH', value: data }),
+  attachOccupant: data =>
+    dispatch({ type: 'ATTACH-OCCUPANT', occupation: data }),
+  removeOccupant: data => dispatch({ type: 'REMOVE-OCCUPANT', value: data }),
   resetSearchQuery: () => dispatch({ type: 'INITIAL-STATE' })
 });
 
@@ -26,6 +29,14 @@ class ParkingApp extends React.Component {
 
     this.socket.on('status-changed', parkingLot => {
       this.props.updateParkingLot(parkingLot);
+    });
+
+    this.socket.on('parkingLot/unoccupied', occupation => {
+      this.props.removeOccupant(occupation);
+    });
+
+    this.socket.on('parkingLot/occupied', occupation => {
+      this.props.attachOccupant(occupation);
     });
 
     this.handleChange = this.handleChange.bind(this);
@@ -57,9 +68,8 @@ class ParkingApp extends React.Component {
   handleChange(event) {
     event.preventDefault();
     if (event.target.value !== '')
-      this.props.setSearchQuery(event.target.value.trim())
-    else
-      this.props.resetSearchQuery()
+      this.props.setSearchQuery(event.target.value.trim());
+    else this.props.resetSearchQuery();
   }
 
   render() {
