@@ -2,8 +2,12 @@ import React from 'react';
 import { tryP } from 'fluture';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
+import AppBar from '@material-ui/core/AppBar';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import io from 'socket.io-client';
 import STBuilding from './STBuilding';
+import Canteen from './Canteen';
 
 const mapDispatchToProps = dispatch => ({
   updateParkingLot: data =>
@@ -40,6 +44,8 @@ class ParkingApp extends React.Component {
     });
 
     this.handleChange = this.handleChange.bind(this);
+    this.changeTabs = this.changeTabs.bind(this);
+    this.state = { tabIndex: 0 };
   }
 
   componentDidMount() {
@@ -72,21 +78,40 @@ class ParkingApp extends React.Component {
     else this.props.resetSearchQuery();
   }
 
+  changeTabs(event, newValue) {
+    event.preventDefault();
+    this.setState({
+      tabIndex: newValue
+    });
+  }
+
   render() {
+    const { tabIndex } = this.state;
     return (
       <div>
-        <form autoComplete="off" noValidate>
-          <TextField
-            id="searchField"
-            onChange={this.handleChange}
-            label="Search Name of Occupant"
-          />
-        </form>
-        <STBuilding />
+        <AppBar position="static">
+          <Tabs value={tabIndex} onChange={this.changeTabs} centered>
+            <Tab label="ST Building" />
+            <Tab label="Canteen" />
+          </Tabs>
+        </AppBar>
+        <Search handleChange={event => this.handleChange(event)} />
+        {tabIndex === 0 && <STBuilding />}
+        {tabIndex === 1 && <Canteen />}
       </div>
     );
   }
 }
+
+const Search = ({ handleChange }) => (
+  <form autoComplete="off" noValidate>
+    <TextField
+      id="searchField"
+      onChange={handleChange}
+      label="Search Name of Occupant"
+    />
+  </form>
+);
 
 export default connect(
   null,

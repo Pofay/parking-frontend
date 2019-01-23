@@ -13,15 +13,15 @@ const mapStateToProps = state => {
     .filter(x => x.areaId === 2)
     .slice(14);
 
-  const availableSlots = upperParkingLots
+  const occupiedSlots = upperParkingLots
     .concat(lowerParkingLots)
-    .filter(x => x.status === 0).length;
+    .filter(x => x.status === 1).length;
   const totalSlots = upperParkingLots.concat(lowerParkingLots).length;
 
   return {
     upperParkingLots,
     lowerParkingLots,
-    availableSlots,
+    occupiedSlots,
     totalSlots
   };
 };
@@ -37,11 +37,11 @@ class STBuilding extends React.Component {
           margin: 'auto'
         }}
       >
-        <Grid container spacing={16} justif="left">
+        <Grid container spacing={16} justify="left">
           <Grid item xs={2} />
           <Paper>
             {' '}
-            Available Slots: {this.props.availableSlots} / {this.props.totalSlots}
+            Available Slots: {this.props.occupiedSlots} / {this.props.totalSlots}
           </Paper>
         </Grid>
         <Grid style={{paddingTop: '1%' }}container spacing={16} justify="center">
