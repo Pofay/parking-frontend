@@ -29,6 +29,7 @@ const fetchFuture = url =>
 class ParkingApp extends React.Component {
   constructor(props) {
     super(props);
+    // Move to a Module for Global Access
     this.socket = io.connect('http://localhost:4000');
 
     this.socket.on('status-changed', parkingLot => {
