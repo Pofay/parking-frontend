@@ -8,6 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import io from 'socket.io-client';
 import STBuilding from './STBuilding';
 import Canteen from './Canteen';
+import DialogContainer from './DialogContainer';
 
 const mapDispatchToProps = dispatch => ({
   updateParkingLot: data =>
@@ -99,6 +100,7 @@ class ParkingApp extends React.Component {
         <Search handleChange={event => this.handleChange(event)} />
         {tabIndex === 0 && <STBuilding />}
         {tabIndex === 1 && <Canteen />}
+        <DialogContainer />
       </div>
     );
   }
