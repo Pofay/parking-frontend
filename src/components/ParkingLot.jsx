@@ -36,8 +36,8 @@ const mapDispatchToProps = dispatch => ({
   openOccupyDialog: lotName =>
     dispatch({ type: 'OCCUPY-DIALOG', dialogData: { lotName } }),
   openUnoccupyDialog: (lotName, occupant) =>
-    dispatch({ type: 'UNOCCUPY-DIALOG', dialogData: { occupant, lotName } })
-});
+    dispatch({ type: 'UNOCCUPY-DIALOG', dialogData: { occupant, lotName } }),
+  });
 
 class ParkingLot extends React.Component {
   constructor(props) {

@@ -5,7 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import io from 'socket.io-client';
+import io from 'socket.io-client'
+import socketService from '../services/SocketIOService';
 import STBuilding from './STBuilding';
 import Canteen from './Canteen';
 import DialogContainer from './DialogContainer';
@@ -31,17 +32,19 @@ class ParkingApp extends React.Component {
   constructor(props) {
     super(props);
     // Move to a Module for Global Access
-    this.socket = io.connect('http://localhost:4000');
+    const socket = io.connect('http://localhost:4000');
 
-    this.socket.on('status-changed', parkingLot => {
+    socketService.init(socket);
+
+    socketService.addListener('status-changed', parkingLot => {
       this.props.updateParkingLot(parkingLot);
     });
 
-    this.socket.on('parkingLot/unoccupied', occupation => {
+    socketService.addListener('parkingLot/unoccupied', occupation => {
       this.props.removeOccupant(occupation);
     });
 
-    this.socket.on('parkingLot/occupied', occupation => {
+    socketService.addListener('parkingLot/occupied', occupation => {
       this.props.attachOccupant(occupation);
     });
 

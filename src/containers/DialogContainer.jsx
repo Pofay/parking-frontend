@@ -7,7 +7,11 @@ import UnoccupyDialog from '../components/UnoccupyDialog';
 const mapStateToProps = state => state.dialogReducer;
 
 const mapDispatchToProps = dispatch => ({
-  close: () => dispatch({ type: 'CLOSE-DIALOG' })
+  close: () => dispatch({ type: 'CLOSE-DIALOG' }),
+  submitOccupyRequest: (lotName, idNumber) =>
+    dispatch({ type: 'OCCUPY-REQUEST', payload: { lotName, idNumber } }),
+  submitUnoccupyRequest: (lotName, idNumber) =>
+    dispatch({ type: 'UNOCCUPY-REQUEST', payload: { lotName, idNumber } })
 });
 
 class DialogContainer extends React.Component {
@@ -29,17 +33,25 @@ class DialogContainer extends React.Component {
 
   handleOccupy(event) {
     event.preventDefault();
-    // dispatch occupy parking lot
+    const { lotName } = this.props.dialogData;
+    const { dialogValue } = this.state;
+    this.props.submitOccupyRequest(lotName, dialogValue);
+    this.props.close();
+    this.setState({ dialogValue: '' });
   }
 
   handleUnoccupy(event) {
     event.preventDefault();
-    // dispatch unoccupy parking lot
+    const { lotName, occupant } = this.props.dialogData;
+    this.props.submitUnoccupyRequest(lotName, occupant.school_id_number);
+    this.props.close();
+    this.setState({ dialogValue: '' });
   }
 
   handleClose(event) {
     event.preventDefault();
     this.props.close();
+    this.setState({ dialogValue: '' });
   }
 
   renderAppropiateDialog(dialogType, dialogData) {

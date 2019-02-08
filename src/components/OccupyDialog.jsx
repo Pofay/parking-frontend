@@ -13,13 +13,14 @@ const OccupyDialog = ({
   onClose,
   onOccupy
 }) => (
-  <div>
+  <form onSubmit={onOccupy}>
     <DialogTitle id="form-dialog-title">{`Occupy ${dialogData.lotName}`}</DialogTitle>
     <DialogContent>
       <DialogContentText>
         Please enter the ID Number of Person for Resevation.
       </DialogContentText>
       <TextField
+        required
         autoFocus
         margin="dense"
         id="name"
@@ -31,14 +32,14 @@ const OccupyDialog = ({
       />
     </DialogContent>
     <DialogActions>
-      <Button onClick={onOccupy} color="primary">
+      <Button type="submit" color="primary">
         Reserve Lot
       </Button>
       <Button onClick={onClose} color="primary">
         Cancel
       </Button>
     </DialogActions>
-  </div>
+  </form>
 );
 
 export default OccupyDialog;
