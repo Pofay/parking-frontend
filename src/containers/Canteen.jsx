@@ -81,7 +81,7 @@ const Canteen = props => (
         </div>
       </Grid>
     </Grid>
-    <Grid container spacing={16} justify="center" style= {{marginTop: "1%"}}>
+    <Grid container spacing={16} justify="center" style={{ marginTop: '1%' }}>
       <Grid item xs={10}>
         <Paper
           style={{

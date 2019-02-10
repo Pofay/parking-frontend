@@ -25,14 +25,12 @@ const parkingAppReducer = (state = [], action) => {
       );
     case 'REMOVE-OCCUPANT':
       return state.map(x =>
-        x.name === action.value.lotName
-          ? { ...x, occupant: undefined }
-          : x
+        x.name === action.value.lotName ? { ...x, occupant: undefined } : x
       );
     default:
       return state;
   }
-}
+};
 
 const getOccupant = pipe(
   head,

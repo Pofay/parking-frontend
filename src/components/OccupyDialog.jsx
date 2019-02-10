@@ -13,7 +13,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => ({
   onOccupy: (lotName, idNumber) =>
-    dispatch({ type: 'OCCUPY-REQUEST', payload: { lotName, idNumber } }),
+    dispatch({ type: 'OCCUPY-REQUEST', payload: { lotName, idNumber } })
 });
 
 class OccupyDialog extends React.Component {

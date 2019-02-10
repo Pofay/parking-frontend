@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import io from 'socket.io-client'
+import io from 'socket.io-client';
 import socketService from '../services/SocketIOService';
 import STBuilding from './STBuilding';
 import Canteen from './Canteen';

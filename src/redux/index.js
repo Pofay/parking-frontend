@@ -9,6 +9,7 @@ const reducers = combineReducers({
   dialogReducer
 });
 
-const createAppStore = (middleware) => createStore(reducers, applyMiddleware(middleware));
+const createAppStore = middleware =>
+  createStore(reducers, applyMiddleware(middleware));
 
 export default createAppStore;
