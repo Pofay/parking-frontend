@@ -4,12 +4,23 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
+
+const mapDispatchToProps = dispatch => ({
+  onUnoccupy: (lotName, idNumber) =>
+    dispatch({ type: 'UNOCCUPY-REQUEST', payload: { lotName, idNumber } })
+});
 
 const UnoccupyDialog = ({ dialogData, onUnoccupy, onClose }) => {
   const idNumber = dialogData.occupant.school_id_number;
 
   return (
-    <form onSubmit={onUnoccupy}>
+    <form
+      onSubmit={event => {
+        event.preventDefault()
+        onUnoccupy(dialogData.lotName, idNumber)
+      }}
+    >
       <DialogTitle id="form-dialog-title">{`Remove Current Occupant at ${
         dialogData.lotName
       } `}</DialogTitle>
@@ -31,4 +42,7 @@ const UnoccupyDialog = ({ dialogData, onUnoccupy, onClose }) => {
   );
 };
 
-export default UnoccupyDialog;
+export default connect(
+  null,
+  mapDispatchToProps
+)(UnoccupyDialog);

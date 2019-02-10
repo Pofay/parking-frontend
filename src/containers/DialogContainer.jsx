@@ -21,7 +21,6 @@ class DialogContainer extends React.Component {
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleOccupy = this.handleOccupy.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.handleUnoccupy = this.handleUnoccupy.bind(this);
     this.renderAppropiateDialog = this.renderAppropiateDialog.bind(this);
   }
 
@@ -36,14 +35,6 @@ class DialogContainer extends React.Component {
     const { lotName } = this.props.dialogData;
     const { dialogValue } = this.state;
     this.props.submitOccupyRequest(lotName, dialogValue);
-    this.props.close();
-    this.setState({ dialogValue: '' });
-  }
-
-  handleUnoccupy(event) {
-    event.preventDefault();
-    const { lotName, occupant } = this.props.dialogData;
-    this.props.submitUnoccupyRequest(lotName, occupant.school_id_number);
     this.props.close();
     this.setState({ dialogValue: '' });
   }
@@ -70,7 +61,6 @@ class DialogContainer extends React.Component {
         <UnoccupyDialog
           dialogData={dialogData}
           onClose={this.handleClose}
-          onUnoccupy={this.handleUnoccupy}
         />
       );
     return null;
