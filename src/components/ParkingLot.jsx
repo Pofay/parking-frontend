@@ -36,8 +36,8 @@ const mapDispatchToProps = dispatch => ({
   openOccupyDialog: lotName =>
     dispatch({ type: 'OCCUPY-DIALOG', dialogData: { lotName } }),
   openUnoccupyDialog: (lotName, occupant) =>
-    dispatch({ type: 'UNOCCUPY-DIALOG', dialogData: { occupant, lotName } }),
-  });
+    dispatch({ type: 'UNOCCUPY-DIALOG', dialogData: { occupant, lotName } })
+});
 
 class ParkingLot extends React.Component {
   constructor(props) {
@@ -50,11 +50,11 @@ class ParkingLot extends React.Component {
   }
 
   handleOpen() {
-    this.setState(state => ({ showtooltip: true }));
+    this.setState({ showtooltip: true });
   }
 
   handleClose() {
-    this.setState(state => ({ showtooltip: false }));
+    this.setState({ showtooltip: false });
   }
 
   render() {
@@ -69,9 +69,7 @@ class ParkingLot extends React.Component {
               : `${name}: ${occupant.name}`
           }
           placement="top"
-          showtooltip={
-            showtooltip || this.props.nameIsContainedInQuery(occupant)
-          }
+          open={showtooltip || this.props.nameIsContainedInQuery(occupant)}
         >
           <Chip
             label={occupant === undefined ? '' : showInitials(occupant.name)}
