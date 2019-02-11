@@ -38,56 +38,46 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-const ViolationsTab = props => {
-  const { violations, addViolation, classes } = props;
-
-  return (
-    <div className={classes.div}>
-      <Button
-        color="primary"
-        className={classes.addViolation}
-        onClick={addViolation}
-      >
-        {' '}
-        Add Violation{' '}
-      </Button>
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell align="right">Violation Number</TableCell>
-              <TableCell align="right">Id Number</TableCell>
-              <TableCell align="right">Rule Violated</TableCell>
-              <TableCell align="right">Additional Notes</TableCell>
-              <TableCell align="right">Status</TableCell>
-              <TableCell aligh="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {violations.map(
-              ({
-                id,
-                occupant_id,
-                rule_violated,
-                additional_notes,
-                status
-              }) => (
-                <TableRow key={id}>
-                  <TableCell>{id}</TableCell>
-                  <TableCell>{occupant_id}</TableCell>
-                  <TableCell>{rule_violated}</TableCell>
-                  <TableCell>{additional_notes}</TableCell>
-                  <TableCell>{status}</TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              )
-            )}
-          </TableBody>
-        </Table>
-      </Paper>
-    </div>
-  );
-};
+const ViolationsTab = ({ violations, addViolation, classes }) => (
+  <div className={classes.div}>
+    <Button
+      color="primary"
+      className={classes.addViolation}
+      onClick={addViolation}
+    >
+      {' '}
+      Add Violation{' '}
+    </Button>
+    <Paper className={classes.root}>
+      <Table className={classes.table}>
+        <TableHead>
+          <TableRow>
+            <TableCell align="right">Violation Number</TableCell>
+            <TableCell align="right">Id Number</TableCell>
+            <TableCell align="right">Rule Violated</TableCell>
+            <TableCell align="right">Additional Notes</TableCell>
+            <TableCell align="right">Status</TableCell>
+            <TableCell aligh="right">Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {violations.map(
+            ({ id, occupant_id, rule_violated, additional_notes, status }) => (
+              <TableRow key={id}>
+                <TableCell>{id}</TableCell>
+                <TableCell>{occupant_id}</TableCell>
+                <TableCell>{rule_violated}</TableCell>
+                <TableCell>{additional_notes}</TableCell>
+                <TableCell>{status}</TableCell>
+                <TableCell />
+              </TableRow>
+            )
+          )}
+        </TableBody>
+      </Table>
+    </Paper>
+  </div>
+);
 
 export default connect(
   mapStateToProps,
