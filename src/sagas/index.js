@@ -17,7 +17,16 @@ function* submitUnoccupyRquest(action) {
   );
 }
 
+function* submitAddViolationRequest(action) {
+  yield console.log(action.payload);
+  yield call(
+    ({ payload }) => socketService.emit('violations/add', payload),
+    action
+  );
+}
+
 export default function* root() {
   yield takeEvery('OCCUPY-REQUEST', submitOccupyRequest);
   yield takeEvery('UNOCCUPY-REQUEST', submitUnoccupyRquest);
+  yield takeEvery('ADD-VIOLATION-REQUEST', submitAddViolationRequest);
 }

@@ -10,6 +10,7 @@ import socketService from '../services/SocketIOService';
 import STBuilding from './STBuilding';
 import Canteen from './Canteen';
 import DialogContainer from './DialogContainer';
+import ViolationsTab from './ViolationsTab';
 
 const mapDispatchToProps = dispatch => ({
   updateParkingLot: data =>
@@ -22,7 +23,11 @@ const mapDispatchToProps = dispatch => ({
   attachOccupant: data =>
     dispatch({ type: 'ATTACH-OCCUPANT', occupation: data }),
   removeOccupant: data => dispatch({ type: 'REMOVE-OCCUPANT', value: data }),
-  resetSearchQuery: () => dispatch({ type: 'INITIAL-STATE' })
+  resetSearchQuery: () => dispatch({ type: 'INITIAL-STATE' }),
+  loadViolations: data =>
+    dispatch({ type: 'LOAD-VIOLATIONS', violations: data }),
+  addViolation: violation =>
+    dispatch({ type: 'ADD-VIOLATION', payload: violation })
 });
 
 const fetchFuture = url =>
@@ -48,6 +53,10 @@ class ParkingApp extends React.Component {
       this.props.attachOccupant(occupation);
     });
 
+    socketService.addListener('violations/added', violation => {
+      this.props.addViolation(violation);
+    });
+
     this.handleChange = this.handleChange.bind(this);
     this.changeTabs = this.changeTabs.bind(this);
     this.state = { tabIndex: 0 };
@@ -64,6 +73,12 @@ class ParkingApp extends React.Component {
       .map(res => res.data)
       .map(res => {
         this.props.attachOccupants(res);
+        return res;
+      })
+      .chain(() => fetchFuture('http://localhost:4000/violations'))
+      .map(res => res.data)
+      .map(res => {
+        this.props.loadViolations(res);
         return res;
       })
       .fork(console.error, success =>
@@ -98,11 +113,13 @@ class ParkingApp extends React.Component {
           <Tabs value={tabIndex} onChange={this.changeTabs} centered>
             <Tab label="ST Building" />
             <Tab label="Canteen" />
+            <Tab label="Violations" />
           </Tabs>
         </AppBar>
         <Search handleChange={event => this.handleChange(event)} />
         {tabIndex === 0 && <STBuilding />}
         {tabIndex === 1 && <Canteen />}
+        {tabIndex === 2 && <ViolationsTab />}
         <DialogContainer />
       </div>
     );

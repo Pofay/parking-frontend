@@ -14,6 +14,11 @@ const dialogReducer = (state = INITIAL_STATE, action) => {
         dialogType: 'UNOCCUPY-DIALOG',
         dialogData: action.dialogData
       };
+    case 'ADD-VIOLATION-DIALOG':
+      return {
+        isOpen: true,
+        dialogType: 'ADD-VIOLATION-DIALOG'
+      }
     case 'CLOSE-DIALOG':
       return INITIAL_STATE;
     default:
