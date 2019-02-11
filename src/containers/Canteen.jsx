@@ -1,8 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ParkingLot from '../components/ParkingLot';
+
+const styles = theme => ({
+  root: {
+    backgroundColor: '#696969',
+    display: 'inline',
+    flexGrow: 1,
+    margin: 'auto'
+  },
+  parkingLots: {
+    display: 'inline-block',
+    marginTop: '2%'
+  },
+
+  container: {
+    paddingTop: '1%'
+  },
+
+  building: {
+    height: '100%',
+    paddingRight: '10%',
+    paddingLeft: '10%'
+  }
+});
 
 const mapStateToProps = state => {
   const upperParkingLots = state.parkingLots
@@ -35,66 +59,59 @@ const mapStateToProps = state => {
   };
 };
 
-const Canteen = props => (
-  <div
-    style={{
-      backgroundColor: '#696969',
-      display: 'inline',
-      flexGrow: 1,
-      margin: 'auto'
-    }}
-  >
+const Canteen = ({
+  classes,
+  occupiedSlots,
+  totalSlots,
+  upperParkingLots,
+  upperMiddleParkingLots,
+  lowerMiddleParkingLots,
+  lowerParkingLots
+}) => (
+  <div className={classes.root}>
     <Grid container spacing={16} justify="left">
       <Grid item xs={2} />
       <Paper>
         {' '}
-        Available Slots: {props.occupiedSlots} / {props.totalSlots}
+        Available Slots: {occupiedSlots} / {totalSlots}
       </Paper>
     </Grid>
-    <Grid style={{ paddingTop: '1%' }} container spacing={16} justify="center">
+    <Grid className={classes.container} container spacing={16} justify="center">
       <Grid item xs={8}>
-        <div style={{ marginTop: '2%', display: 'inline-block' }}>
-          {props.upperParkingLots.map(x => (
+        <div className={classes.parkingLots}>
+          {upperParkingLots.map(x => (
             <ParkingLot key={x.id} {...x} />
           ))}
         </div>
       </Grid>
       <Grid item xs={8}>
-        <div style={{ marginTop: '2%', display: 'inline-block' }}>
-          {props.upperMiddleParkingLots.map(x => (
+        <div className={classes.parkingLots}>
+          {upperMiddleParkingLots.map(x => (
             <ParkingLot key={x.id} {...x} />
           ))}
         </div>
       </Grid>
       <Grid item xs={8}>
-        <div style={{ marginTop: '2%', display: 'inline-block' }}>
-          {props.lowerMiddleParkingLots.map(x => (
+        <div className={classes.parkingLots}>
+          {lowerMiddleParkingLots.map(x => (
             <ParkingLot key={x.id} {...x} />
           ))}
         </div>
       </Grid>
       <Grid item xs={8}>
-        <div style={{ marginTop: '2%', display: 'inline-block' }}>
-          {props.lowerParkingLots.map(x => (
+        <div className={classes.parkingLots}>
+          {lowerParkingLots.map(x => (
             <ParkingLot key={x.id} {...x} />
           ))}
         </div>
       </Grid>
     </Grid>
-    <Grid container spacing={16} justify="center" style={{ marginTop: '1%' }}>
+    <Grid className={classes.container} container spacing={16} justify="center">
       <Grid item xs={10}>
-        <Paper
-          style={{
-            height: '100%',
-            paddingRight: '10%',
-            paddingLeft: '10%'
-          }}
-        >
-          Covered Walk
-        </Paper>
+        <Paper className={classes.building}>Covered Walk</Paper>
       </Grid>
     </Grid>
   </div>
 );
 
-export default connect(mapStateToProps)(Canteen);
+export default connect(mapStateToProps)(withStyles(styles)(Canteen));

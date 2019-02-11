@@ -14,7 +14,13 @@ import {
   toUpper
 } from 'ramda';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
 
+const styles = theme => ({
+  root: {
+    display: 'inline'
+  }
+});
 const showInitials = pipe(
   split(' '),
   map(head),
@@ -58,10 +64,10 @@ class ParkingLot extends React.Component {
   }
 
   render() {
-    const { occupant, name, status } = this.props;
+    const { occupant, name, status, classes } = this.props;
     const { showtooltip } = this.state;
     return (
-      <div style={{ display: 'inline' }}>
+      <div className={classes.root}>
         <Tooltip
           title={
             occupant === undefined
@@ -118,4 +124,4 @@ ParkingLot.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ParkingLot);
+)(withStyles(styles)(ParkingLot));

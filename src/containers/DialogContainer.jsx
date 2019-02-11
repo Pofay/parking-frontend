@@ -1,18 +1,9 @@
 import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import OccupyDialog from '../components/OccupyDialog';
 import UnoccupyDialog from '../components/UnoccupyDialog';
 import AddViolationDialog from '../components/AddViolationDialog';
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  }
-});
 
 const mapStateToProps = state => {
   const { isOpen, dialogType } = state.dialogReducer;
@@ -26,7 +17,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-const DialogContainer = ({ classes, isOpen, dialogType, close }) => (
+const DialogContainer = ({ isOpen, dialogType, close }) => (
   <Dialog open={isOpen} onClose={close} aria-labelledby="form-dialog-title">
     {renderAppropiateDialog(dialogType, close)}
   </Dialog>
@@ -48,4 +39,4 @@ const renderAppropiateDialog = (dialogType, onClose) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(DialogContainer));
+)(DialogContainer);
