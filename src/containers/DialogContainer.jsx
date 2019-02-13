@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import OccupyDialog from '../components/OccupyDialog';
 import UnoccupyDialog from '../components/UnoccupyDialog';
 import AddViolationDialog from '../components/AddViolationDialog';
+import DeleteViolationDialog from '../components/DeleteViolationDialog';
+
 
 const mapStateToProps = state => {
   const { isOpen, dialogType } = state.dialogReducer;
@@ -31,6 +33,8 @@ const renderAppropiateDialog = (dialogType, onClose) => {
       return <UnoccupyDialog onClose={onClose} />;
     case 'ADD-VIOLATION-DIALOG':
       return <AddViolationDialog onClose={onClose} />;
+    case 'DELETE-VIOLATION-DIALOG':
+      return <DeleteViolationDialog onClose={onClose} />
     default:
       return null;
   }

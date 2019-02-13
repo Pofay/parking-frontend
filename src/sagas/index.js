@@ -1,28 +1,28 @@
-import { call, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import socketService from '../services/SocketIOService';
 
 function* submitOccupyRequest(action) {
-  yield console.log(action.payload);
   yield call(
     ({ payload }) => socketService.emit('parkingLot/occupy', payload),
     action
   );
+  yield put({ type: 'CLOSE-DIALOG' });
 }
 
 function* submitUnoccupyRquest(action) {
-  yield console.log(action.payload);
   yield call(
     ({ payload }) => socketService.emit('parkingLot/unoccupy', payload),
     action
   );
+  yield put({ type: 'CLOSE-DIALOG' });
 }
 
 function* submitAddViolationRequest(action) {
-  yield console.log(action.payload);
   yield call(
     ({ payload }) => socketService.emit('violations/add', payload),
     action
   );
+  yield put({ type: 'CLOSE-DIALOG' });
 }
 
 export default function* root() {

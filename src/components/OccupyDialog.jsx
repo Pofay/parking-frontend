@@ -30,7 +30,6 @@ class OccupyDialog extends React.Component {
     const { lotName, onOccupy } = this.props;
     const { idNumberEntered } = this.state;
     onOccupy(lotName, idNumberEntered);
-    this.handleClose(event);
   }
 
   handleChange(event) {

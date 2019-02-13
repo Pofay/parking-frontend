@@ -6,6 +6,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -24,26 +26,55 @@ const styles = theme => ({
     marginLeft: '10%'
   },
 
-  addViolation: {
+  openAddViolationDialog: {
     marginLeft: '60%'
+  },
+  button: {
+    margin: theme.spacing.unit
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
   }
 });
 
 const mapStateToProps = state => ({ violations: state.violationsReducer });
 
 const mapDispatchToProps = dispatch => ({
-  addViolation: event => {
+  openAddViolationDialog: event => {
     event.preventDefault();
     dispatch({ type: 'ADD-VIOLATION-DIALOG' });
+  },
+  openDeleteViolationDialog: violationId => event => {
+    event.preventDefault();
+    dispatch({ type: 'DELETE-VIOLATION-DIALOG', dialogData: { violationId } });
+  },
+  openUpdateViolationDialog: (
+    violationId,
+    occupantId,
+    ruleViolated,
+    additionalNotes,
+    status
+  ) => event => {
+    event.preventDefault();
+    dispatch({
+      type: 'UPDATE-VIOLATION-DIALOG',
+      dialogData: { violationId, occupantId, ruleViolated, additionalNotes, status }
+    });
   }
 });
 
-const ViolationsTab = ({ violations, addViolation, classes }) => (
+const ViolationsTab = ({
+  violations,
+  openAddViolationDialog,
+  openDeleteViolationDialog,
+  openUpdateViolationDialog,
+  classes
+}) => (
   <div className={classes.div}>
     <Button
       color="primary"
-      className={classes.addViolation}
-      onClick={addViolation}
+      className={classes.openAddViolationDialog}
+      onClick={openAddViolationDialog}
     >
       {' '}
       Add Violation{' '}
@@ -69,7 +100,32 @@ const ViolationsTab = ({ violations, addViolation, classes }) => (
                 <TableCell>{rule_violated}</TableCell>
                 <TableCell>{additional_notes}</TableCell>
                 <TableCell>{status}</TableCell>
-                <TableCell />
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.button}
+                    onClick={openDeleteViolationDialog(id)}
+                  >
+                    Delete
+                    <DeleteIcon className={classes.rightIcon} />
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={openUpdateViolationDialog(
+                      id,
+                      occupant_id,
+                      rule_violated,
+                      additional_notes,
+                      status
+                    )}
+                  >
+                    Update
+                    <AddIcon className={classes.rightIcon} />
+                  </Button>
+                </TableCell>
               </TableRow>
             )
           )}
