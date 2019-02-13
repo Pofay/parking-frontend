@@ -5,7 +5,7 @@ import OccupyDialog from '../components/OccupyDialog';
 import UnoccupyDialog from '../components/UnoccupyDialog';
 import AddViolationDialog from '../components/AddViolationDialog';
 import DeleteViolationDialog from '../components/DeleteViolationDialog';
-
+import UpdateViolationDialog from '../components/UpdateViolationDialog';
 
 const mapStateToProps = state => {
   const { isOpen, dialogType } = state.dialogReducer;
@@ -34,7 +34,9 @@ const renderAppropiateDialog = (dialogType, onClose) => {
     case 'ADD-VIOLATION-DIALOG':
       return <AddViolationDialog onClose={onClose} />;
     case 'DELETE-VIOLATION-DIALOG':
-      return <DeleteViolationDialog onClose={onClose} />
+      return <DeleteViolationDialog onClose={onClose} />;
+    case 'UPDATE-VIOLATION-DIALOG':
+      return <UpdateViolationDialog onClose={onClose} />;
     default:
       return null;
   }
