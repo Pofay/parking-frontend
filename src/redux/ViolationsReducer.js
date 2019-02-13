@@ -6,6 +6,8 @@ const violationsReducer = (state = INITIAL_STATE, action) => {
       return action.violations
     case 'ADD-VIOLATION':
       return state.concat(action.payload)
+    case 'DELETE-VIOLATION':
+      return state.filter(v => v.id !== action.payload)
     default:
       return state;
   }

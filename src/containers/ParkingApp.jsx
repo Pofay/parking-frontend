@@ -27,7 +27,9 @@ const mapDispatchToProps = dispatch => ({
   loadViolations: data =>
     dispatch({ type: 'LOAD-VIOLATIONS', violations: data }),
   addViolation: violation =>
-    dispatch({ type: 'ADD-VIOLATION', payload: violation })
+    dispatch({ type: 'ADD-VIOLATION', payload: violation }),
+  deleteViolation: violationId =>
+    dispatch({ type: 'DELETE-VIOLATION', payload: violationId })
 });
 
 const fetchFuture = url =>
@@ -56,6 +58,10 @@ class ParkingApp extends React.Component {
     socketService.addListener('violations/added', violation => {
       this.props.addViolation(violation);
     });
+
+    socketService.addListener('violations/deleted', violationId => {
+      this.props.deleteViolation(violationId)
+    })
 
     this.handleChange = this.handleChange.bind(this);
     this.changeTabs = this.changeTabs.bind(this);

@@ -25,8 +25,17 @@ function* submitAddViolationRequest(action) {
   yield put({ type: 'CLOSE-DIALOG' });
 }
 
+function* submitDeleteViolationRequest(action) {
+  yield call(
+    ({ payload }) => socketService.emit('violations/delete', payload),
+    action
+  );
+  yield put({ type: 'CLOSE-DIALOG' });
+}
+
 export default function* root() {
   yield takeEvery('OCCUPY-REQUEST', submitOccupyRequest);
   yield takeEvery('UNOCCUPY-REQUEST', submitUnoccupyRquest);
   yield takeEvery('ADD-VIOLATION-REQUEST', submitAddViolationRequest);
+  yield takeEvery('DELETE-VIOLATION-REQUEST', submitDeleteViolationRequest);
 }
