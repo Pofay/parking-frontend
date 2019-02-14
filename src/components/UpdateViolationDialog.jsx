@@ -22,20 +22,38 @@ const styles = theme => ({
   }
 });
 
+const mapStateToProps = state => {
+  const {
+    violationId,
+    occupantId,
+    violatedRule,
+    additionalNotes,
+    violationStatus
+  } = state.dialogReducer.dialogData;
+
+  return {
+    violationId,
+    occupantId,
+    violatedRule,
+    additionalNotes,
+    violationStatus
+  };
+};
 const mapDispatchToProps = dispatch => ({
-  updateViolation: payload =>
+  updateViolation: payload => {
     dispatch({ type: 'UPDATE-VIOLATION-REQUEST', payload })
+  }
 });
 
 class UpdateViolationDialog extends React.Component {
   constructor(props) {
     super(props);
-    const { occupantId, violatedRule, additionalNotes, status } = this.props;
     this.state = {
-      occupantId,
-      violatedRule,
-      additionalNotes,
-      violationStatus: status
+      violationId: '',
+      occupantId: '',
+      violatedRule: '',
+      additionalNotes: '',
+      violationStatus: ''
     };
 
     this.loadInitialState = this.loadInitialState.bind(this);
@@ -49,13 +67,25 @@ class UpdateViolationDialog extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.loadInitialState();
+  }
+
   loadInitialState() {
-    const { occupantId, violatedRule, additionalNotes, status } = this.props;
-    this.setState({
+    const {
+      violationId,
       occupantId,
       violatedRule,
       additionalNotes,
-      violationStatus: status
+      violationStatus
+    } = this.props;
+
+    this.setState({
+      violationId,
+      occupantId,
+      violatedRule,
+      additionalNotes,
+      violationStatus
     });
   }
 
@@ -85,8 +115,8 @@ class UpdateViolationDialog extends React.Component {
 
   handleSubmit(event) {
     this.handleClose(event);
-    const { violationId } = this.props;
     const {
+      violationId,
       occupantId,
       violatedRule,
       additionalNotes,
@@ -108,8 +138,12 @@ class UpdateViolationDialog extends React.Component {
   }
 
   render() {
+    const {
+      occupantId,
+      violatedRule,
+      additionalNotes
+    } = this.state;
     const { classes } = this.props;
-    const { occupantId, violatedRule, additionalNotes } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -146,7 +180,7 @@ class UpdateViolationDialog extends React.Component {
         </DialogContent>
         <DialogActions>
           <Button type="submit" color="primary">
-            Submit
+            Update
           </Button>
           <Button onClick={this.handleClose} color="primary">
             Cancel
@@ -157,6 +191,6 @@ class UpdateViolationDialog extends React.Component {
   }
 }
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(UpdateViolationDialog));

@@ -51,14 +51,20 @@ const mapDispatchToProps = dispatch => ({
   openUpdateViolationDialog: (
     violationId,
     occupantId,
-    ruleViolated,
+    violatedRule,
     additionalNotes,
-    status
+    violationStatus
   ) => event => {
     event.preventDefault();
     dispatch({
       type: 'UPDATE-VIOLATION-DIALOG',
-      dialogData: { violationId, occupantId, ruleViolated, additionalNotes, status }
+      dialogData: {
+        violationId,
+        occupantId,
+        violatedRule,
+        additionalNotes,
+        violationStatus
+      }
     });
   }
 });
