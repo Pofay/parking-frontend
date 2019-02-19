@@ -11,6 +11,7 @@ import STBuilding from './STBuilding';
 import Canteen from './Canteen';
 import DialogContainer from './DialogContainer';
 import ViolationsTab from './ViolationsTab';
+import CommentsTab from './CommentsTab'
 
 const mapDispatchToProps = dispatch => ({
   updateParkingLot: data =>
@@ -126,12 +127,14 @@ class ParkingApp extends React.Component {
             <Tab label="ST Building" />
             <Tab label="Canteen" />
             <Tab label="Violations" />
+            <Tab label="Comments" />
           </Tabs>
         </AppBar>
         <Search handleChange={event => this.handleChange(event)} />
         {tabIndex === 0 && <STBuilding />}
         {tabIndex === 1 && <Canteen />}
         {tabIndex === 2 && <ViolationsTab />}
+        {tabIndex === 3 && <CommentsTab />}
         <DialogContainer />
       </div>
     );
