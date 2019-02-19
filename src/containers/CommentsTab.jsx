@@ -35,7 +35,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  submitComment: comment => dispatch({ type: 'SUBMIT-COMMENT', data: comment })
+  submitComment: comment => dispatch({ type: 'SUBMIT-COMMENT', comment })
 });
 
 class CommentsTab extends React.Component {
@@ -73,6 +73,7 @@ class CommentsTab extends React.Component {
 
   render() {
     const { comments, classes } = this.props;
+    console.log(comments);
     const { name, comment } = this.state;
     return (
       <div className={classes.root}>

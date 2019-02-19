@@ -11,7 +11,7 @@ import STBuilding from './STBuilding';
 import Canteen from './Canteen';
 import DialogContainer from './DialogContainer';
 import ViolationsTab from './ViolationsTab';
-import CommentsTab from './CommentsTab'
+import CommentsTab from './CommentsTab';
 
 const mapDispatchToProps = dispatch => ({
   updateParkingLot: data =>
@@ -32,7 +32,9 @@ const mapDispatchToProps = dispatch => ({
   deleteViolation: violationId =>
     dispatch({ type: 'DELETE-VIOLATION', payload: violationId }),
   updateViolation: violation =>
-    dispatch({ type: 'UPDATE-VIOLATION', payload: violation })
+    dispatch({ type: 'UPDATE-VIOLATION', payload: violation }),
+  loadComments: comments => dispatch({ type: 'LOAD-COMMENTS', comments }),
+  addComment: comment => dispatch({ type: 'ADD-COMMENT', comment })
 });
 
 const fetchFuture = url =>
@@ -45,6 +47,8 @@ class ParkingApp extends React.Component {
     const socket = io.connect('http://localhost:4000');
 
     socketService.init(socket);
+
+    socket.emit('get-comments', {});
 
     socketService.addListener('status-changed', parkingLot => {
       this.props.updateParkingLot(parkingLot);
@@ -68,6 +72,14 @@ class ParkingApp extends React.Component {
 
     socketService.addListener('violations/updated', violation => {
       this.props.updateViolation(violation);
+    });
+
+    socketService.addListener('got-comments', result => {
+      this.props.loadComments(result.data);
+    });
+
+    socketService.addListener('added-comment', result => {
+      this.props.addComment(result);
     });
 
     this.handleChange = this.handleChange.bind(this);
